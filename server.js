@@ -33,11 +33,6 @@ app.prepare().then(() => {
   server.use(bodyParser.json()); // enable server to parse incoming JSON request bodies
   server.use(bodyParser.urlencoded({ extended: true })); // enable server to parse URL-encoded request bodies; 'extended' allows rich objects & arrays to be encoded into URL-encoded format
 
-  // set up route to handle get requests
-  server.get("*", (request, response) => {
-    return handler(request, response);
-  });
-
   const chatHistory = { messages: [] }; // set 'chatHistory' w/ 'messages' initialized to empty array; stores messages in memory
 
   // endpoint to listen to POST requests to '/message'
@@ -48,11 +43,18 @@ app.prepare().then(() => {
 
     chatHistory.messages.push(chat); // add new 'chat' object to 'messages' array
     pusher.trigger("chat-room", "new-message", { chat }); // trigger a 'new-message' event on 'chat-room' Pusher subscribed channel by passing 'chat' object as event data
+
+    response.sendStatus(200); // send success response back to client
   });
 
   // endpoint to listen to POST requests to '/message
-  server.post("/message", (request, response, next) => {
+  server.post("/messages", (request, response, next) => {
     response.json({ ...chatHistory, status: "success" }); // respond w/ current 'chatHistory' object (all stored messages) and status 'success'
+  });
+
+  // set up route to handle get requests
+  server.get("*", (request, response) => {
+    return handler(request, response);
   });
 
   // start Express server

@@ -30,6 +30,7 @@ class IndexPage extends Component {
       boxShadow: "none !important",
     };
 
+    // generate landing page
     return (
       <Layout pageTitle="Sentiment Analysis Chat">
         <main className="container-fluid position-absolute h-100 bg-dark">

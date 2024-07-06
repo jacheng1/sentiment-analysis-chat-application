@@ -32,12 +32,15 @@ class Chat extends Component {
     // binds a handler function to 'connected' event
     this.pusher.connection.bind("connected", () => {
       axios
-        .post("/messages") // send POST request to '/messages' endpoint via Axios
+        .post("http://localhost:3000/messages") // send POST request to '/messages' endpoint via Axios
         .then((response) => {
           // handle response by Axios
 
           const chats = response.data.messages; // extract 'messages' data from response
           this.setState({ chats }); // set state with modified 'chats' value; re-render and re-display messages
+        })
+        .catch((error) => {
+          console.error("Error; cannot fetch message(s):", error); // log fetch error
         });
     });
   }
@@ -59,10 +62,18 @@ class Chat extends Component {
 
       event.target.value = ""; // reset input field to empty string
 
-      axios.post("/message", chat); // send 'chat' object to server via POST request to '/message' endpoint w/ Axios
+      axios
+        .post("http://localhost:3000/message", chat) // send 'chat' object to server via POST request to '/message' endpoint w/ Axios
+        .catch((error) => {
+          console.error("Error; cannot send message(s):", error); // log send error
+        });
     }
   };
 
+  // generate 3 div's:
+  // div 1: top tab w/ username
+  // div 2: chat history
+  // div 3: bottom chat message input field
   render() {
     return (
       this.props.activeUser && (

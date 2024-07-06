@@ -22,6 +22,7 @@ class ChatMessage extends Component {
       whiteSpace: "pre-wrap",
     };
 
+    // generate chat message bubble
     return (
       <div className={`w-100 my-1 d-flex ${justify}`}>
         <div
