@@ -40,7 +40,7 @@ class Chat extends Component {
           this.setState({ chats }); // set state with modified 'chats' value; re-render and re-display messages
         })
         .catch((error) => {
-          console.error("Error; cannot fetch message(s):", error); // log fetch error
+          console.error("Error; cannot fetch message(s): ", error); // log fetch error
         });
     });
   }
@@ -65,7 +65,7 @@ class Chat extends Component {
       axios
         .post("http://localhost:3000/message", chat) // send 'chat' object to server via POST request to '/message' endpoint w/ Axios
         .catch((error) => {
-          console.error("Error; cannot send message(s):", error); // log send error
+          console.error("Error; cannot send message(s): ", error); // log send error
         });
     }
   };
@@ -91,25 +91,28 @@ class Chat extends Component {
             style={{ height: "calc(100% - 180px)", overflowY: "scroll" }}
           >
             {this.state.chats.map((chat, index) => {
-              const previous = Math.max(0, index - 1);
-              const previousChat = this.state.chats[previous];
+              // map over 'chats' array stored in the component's state
+              
+              const previous = Math.max(0, index - 1); // calculate index of previous chat message
+              const previousChat = this.state.chats[previous]; // retrieve previous chat message from index of 'chats' array
               const position =
-                chat.user === this.props.activeUser ? "right" : "left";
+                chat.user === this.props.activeUser ? "right" : "left"; // if 'user' matches 'activeUser', set 'position' to 'right' side
 
-              const isFirst = previous === index;
-              const inSequence = chat.user === previousChat.user;
+              const isFirst = previous === index; // check if current message is the first message
+              const inSequence = chat.user === previousChat.user; // check if current message is part of a sequence from the same user
               const hasDelay =
                 Math.ceil(
                   (chat.timestamp - previousChat.timestamp) / (1000 * 60),
-                ) > 1;
+                ) > 1; // check if a delay exceeds 1 minute betw. current and previous messages
 
               const mood =
                 chat.sentiment > 0
                   ? HAPPY_EMOJI
                   : chat.sentiment === 0
                     ? NEUTRAL_EMOJI
-                    : SAD_EMOJI;
+                    : SAD_EMOJI; // set mood to appropriate emoji depending on sentiment score of a chat message
 
+              // render scrollable chat history
               return (
                 <Fragment key={index}>
                   {(isFirst || !inSequence || hasDelay) && (
@@ -118,12 +121,15 @@ class Chat extends Component {
                       style={{ fontSize: "0.9rem" }}
                     >
                       <span className="d-block" style={{ fontSize: "1.6rem" }}>
-                        {String.fromCodePoint(...mood)}
+                        {String.fromCodePoint(...mood)}{" "}
+                        {/* render determined mood emoji */}
                       </span>
-                      <span>{chat.user || "Anonymous"}</span>
+                      <span>{chat.user || "Anonymous"}</span>{" "}
+                      {/* render name of user, or "Anonymous" if none */}
                     </div>
                   )}
-                  <ChatMessage message={chat.message} position={position} />
+                  <ChatMessage message={chat.message} position={position} />{" "}
+                  {/* render chat message */}
                 </Fragment>
               );
             })}
