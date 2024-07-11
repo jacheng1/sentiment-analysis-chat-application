@@ -80,7 +80,7 @@ class Chat extends Component {
         <Fragment>
           <div
             className="border-bottom border-gray w-100 d-flex align-items-center bg-white"
-            style={{ height: 90 }}
+            style={{ height: 90, width: 100 }}
           >
             <h2 className="text-dark mb-0 mx-4 px-2">
               {this.props.activeUser}
@@ -88,11 +88,15 @@ class Chat extends Component {
           </div>
           <div
             className="px-4 pb-4 w-100 d-flex flex-row flex-wrap align-items-start align-content-start position-relative"
-            style={{ height: "calc(100% - 180px)", overflowY: "scroll" }}
+            style={{
+              height: "calc(100% - 180px)",
+              width: 100,
+              overflowY: "scroll",
+            }}
           >
             {this.state.chats.map((chat, index) => {
               // map over 'chats' array stored in the component's state
-              
+
               const previous = Math.max(0, index - 1); // calculate index of previous chat message
               const previousChat = this.state.chats[previous]; // retrieve previous chat message from index of 'chats' array
               const position =
@@ -136,7 +140,7 @@ class Chat extends Component {
           </div>
           <div
             className="border-top border-gray w-100 px-4 d-flex align-items-center bg-light"
-            style={{ minHeight: 90 }}
+            style={{ minHeight: 90, width: 100 }}
           >
             <textarea
               className="form-control px-3 py-2"
