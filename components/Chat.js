@@ -79,7 +79,7 @@ class Chat extends Component {
       this.props.activeUser && (
         <Fragment>
           <div
-            className="border-bottom border-gray w-100 d-flex align-items-center bg-white"
+            className="border-bottom border-gray w-100 d-flex align-items-center bg-light"
             style={{ height: 90, width: 100 }}
           >
             <h2 className="text-dark mb-0 mx-4 px-2">
@@ -116,6 +116,16 @@ class Chat extends Component {
                     ? NEUTRAL_EMOJI
                     : SAD_EMOJI; // set mood to appropriate emoji depending on sentiment score of a chat message
 
+              // convert timestamp from raw Unix to human-readable format
+              const readableTimestamp = new Date(
+                chat.timestamp,
+              ).toLocaleTimeString([], {
+                year: "numeric",
+                weekday: "short",
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+
               // render scrollable chat history
               return (
                 <Fragment key={index}>
@@ -132,7 +142,11 @@ class Chat extends Component {
                       {/* render name of user, or "Anonymous" if none */}
                     </div>
                   )}
-                  <ChatMessage message={chat.message} position={position} />{" "}
+                  <ChatMessage
+                    message={chat.message}
+                    position={position}
+                    readableTimestamp={readableTimestamp}
+                  />{" "}
                   {/* render chat message */}
                 </Fragment>
               );
