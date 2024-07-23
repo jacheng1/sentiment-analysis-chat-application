@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 import Chat from "../components/Chat";
 
 class IndexPage extends Component {
-  state = { user: null }; // set initial state of component w/ 'user' property initialized to null
+  state = { user: null, fadeIn: false }; // set initial state of component w/ 'user' property initialized to null
 
   // event handler 'handleKeyUp' with event object 'event'
   handleKeyUp = (event) => {
@@ -11,12 +11,15 @@ class IndexPage extends Component {
     if (event.keyCode === 13) {
       const user = event.target.value; // retrieve value of input field where event occurred
 
-      this.setState({ user }); // set state with entered 'user' value
+      this.setState({ user, fadeIn: true }); // set state with entered 'user' value
+
+      console.log("User set: ", user);
+      console.log("Fade-in triggered");
     }
   };
 
   render() {
-    const { user } = this.state; // extract 'user' property from component state
+    const { user, fadeIn } = this.state; // extract 'user' property from component state
 
     // define variable to contain CSS styles for input element
     const nameInputStyles = {
@@ -38,12 +41,12 @@ class IndexPage extends Component {
             <section className="col-md-6 d-flex flex-row flex-wrap align-items-center align-content-center px-5">
               <div className="px-5 mx-5">
                 <span
-                  className="d-block w-100 h1 text-light"
+                  className={`d-block w-100 h1 text-light ${fadeIn ? 'fade-in' : ''}`}
                   style={{ marginTop: -50 }}
                 >
                   {user ? (
                     <span>
-                      <span style={{ color: "#999" }}>Hello,</span>
+                      <span style={{ color: "#999" }}>Welcome,</span>
                       {" " + user + "."}
                     </span>
                   ) : (
