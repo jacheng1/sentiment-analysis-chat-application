@@ -13,8 +13,8 @@ class IndexPage extends Component {
 
       this.setState({ user, fadeIn: true }); // set state with entered 'user' value
 
-      console.log("User set: ", user);
-      console.log("Fade-in triggered");
+      console.log("Current user: ", user);
+      console.log("Fade-in effect triggered.");
     }
   };
 
@@ -41,7 +41,7 @@ class IndexPage extends Component {
             <section className="col-md-6 d-flex flex-row flex-wrap align-items-center align-content-center px-5">
               <div className="px-5 mx-5">
                 <span
-                  className={`d-block w-100 h1 text-light ${fadeIn ? 'fade-in' : ''}`}
+                  className={`d-block w-100 h1 text-light ${fadeIn ? "fade-in" : ""}`}
                   style={{ marginTop: -50 }}
                 >
                   {user ? (
