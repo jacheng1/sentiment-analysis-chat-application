@@ -3,9 +3,13 @@ import axios from "axios";
 import Pusher from "pusher-js";
 import ChatMessage from "../components/ChatMessage";
 
-const SAD_EMOJI = [55357, 56864]; // variable for sad emoji betw. sentiment scores 55357 & 56864
-const NEUTRAL_EMOJI = [55357, 56848]; // variable for neutral emoji betw. sentiment scores 55357 & 56848
-const HAPPY_EMOJI = [55357, 56832]; // variable for happy emoji betw. sentiment scores 55357 & 56832
+const VERY_SAD_EMOJI = [55357, 56877]; // sentiment score range w/ unicode for loudly crying emoji
+const SAD_EMOJI = [55357, 56866]; // sentiment score range w/ unicode for crying emoji
+const LITTLE_SAD_EMOJI = [55357, 56852]; // sentiment score range w/ unicode for pensive emoji
+const NEUTRAL_EMOJI = [55357, 56848]; // sentiment score range w/ unicode for neutral emoji
+const LITTLE_HAPPY_EMOJI = [55357, 56832]; // sentiment score range w/ unicode for smiling w/ open mouth emoji
+const HAPPY_EMOJI = [55357, 56836]; // sentiment score range w/ unicode for smiling w/ open mouth and smiling eyes emoji
+const VERY_HAPPY_EMOJI = [55357, 56833]; // sentiment score w/ unicode for grinning w/ smiling eyes emoji
 
 class Chat extends Component {
   state = { chats: [] }; // set initial state of component w/ 'chats' initialized to empty array; stores chat messages
@@ -109,12 +113,22 @@ class Chat extends Component {
                   (chat.timestamp - previousChat.timestamp) / (1000 * 60),
                 ) > 1; // check if a delay exceeds 1 minute betw. current and previous messages
 
+              console.log(`${chat.sentiment}`);
+
               const mood =
-                chat.sentiment > 0
-                  ? HAPPY_EMOJI
-                  : chat.sentiment === 0
-                    ? NEUTRAL_EMOJI
-                    : SAD_EMOJI; // set mood to appropriate emoji depending on sentiment score of a chat message
+                chat.sentiment <= -3
+                  ? VERY_SAD_EMOJI
+                  : chat.sentiment <= -2
+                    ? SAD_EMOJI
+                    : chat.sentiment < 0
+                      ? LITTLE_SAD_EMOJI
+                      : chat.sentiment === 0
+                        ? NEUTRAL_EMOJI
+                        : chat.sentiment < 2
+                          ? LITTLE_HAPPY_EMOJI
+                          : chat.sentiment < 3
+                            ? HAPPY_EMOJI
+                            : VERY_HAPPY_EMOJI; // set mood to appropriate emoji depending on sentiment score of a chat message
 
               // convert timestamp from raw Unix to human-readable format
               const readableTimestamp = new Date(
