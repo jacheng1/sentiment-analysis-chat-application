@@ -1,8 +1,8 @@
-## Sentiment Analysis Chat Application
+# Sentiment Analysis Chat Application
 
 Details will be finalized at a later date.
 
-# To Contribute:
+## To Contribute:
 
 ```
 git fetch origin2
